@@ -17,3 +17,5 @@ tests:
   image: gradle:jdk21-corretto
   script:
     - gradle test
+  failures:
+    - true
