@@ -10,14 +10,16 @@ stages:
 compile:
   stage: build
   image: alpine
-  script: echo "compiling..." && exit 0
+  script: 
+    - echo "compiling..." && exit 0
 
 # This job deliberately fails (exit 1).
 # Toggle failures between true and false to see different outcomes.
 linter:
   stage: test
   image: alpine
-  script: echo "linting..." && exit 1
+  script:
+    - echo "linting..." && exit 1
   failures: true
 
 # Depends on linter. When linter is optional (failures: true),
@@ -26,16 +28,19 @@ unittest:
   stage: test
   image: alpine
   needs: [linter]
-  script: echo "testing..." && exit 0
+  script: 
+    - echo "testing..." && exit 0
 
 # This job has no dependency on linter, always runs in test stage.
 coverage:
   stage: test
   image: alpine
-  script: echo "coverage report..." && exit 0
+  script: 
+    - echo "coverage report..." && exit 0
 
 # Deploy stage only runs if test stage succeeds.
 package:
   stage: deploy
   image: alpine
-  script: echo "deploying..." && exit 0
+  script: 
+    - echo "deploying..." && exit 0
