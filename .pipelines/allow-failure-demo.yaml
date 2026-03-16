@@ -20,7 +20,7 @@ linter:
   image: gradle:jdk21-corretto
   script:
     - echo "linting..." && exit 1
-  failures: true
+  failures: false
 
 # Depends on linter. When linter is optional (failures: true),
 # this job still runs even after linter fails.
