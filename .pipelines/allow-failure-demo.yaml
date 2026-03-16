@@ -9,7 +9,7 @@ stages:
 
 compile:
   stage: build
-  image: alpine
+  image: gradle:jdk21-corretto
   script: 
     - echo "compiling..." && exit 0
 
@@ -17,7 +17,7 @@ compile:
 # Toggle failures between true and false to see different outcomes.
 linter:
   stage: test
-  image: alpine
+  image: gradle:jdk21-corretto
   script:
     - echo "linting..." && exit 1
   failures: true
@@ -26,7 +26,7 @@ linter:
 # this job still runs even after linter fails.
 unittest:
   stage: test
-  image: alpine
+  image: gradle:jdk21-corretto
   needs: [linter]
   script: 
     - echo "testing..." && exit 0
@@ -34,13 +34,13 @@ unittest:
 # This job has no dependency on linter, always runs in test stage.
 coverage:
   stage: test
-  image: alpine
+  image: gradle:jdk21-corretto
   script: 
     - echo "coverage report..." && exit 0
 
 # Deploy stage only runs if test stage succeeds.
 package:
   stage: deploy
-  image: alpine
+  image: gradle:jdk21-corretto
   script: 
     - echo "deploying..." && exit 0
