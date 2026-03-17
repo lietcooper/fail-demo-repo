@@ -1,0 +1,46 @@
+pipeline:
+  name: allow-failure-demo
+  description: Demo pipeline to test failures field
+
+stages:
+  - build
+  - test
+  - deploy
+
+compile:
+  stage: build
+  image: gradle:jdk21-corretto
+  script: 
+    - echo "compiling..." && exit 0
+
+# This job deliberately fails (exit 1).
+# Toggle failures between true and false to see different outcomes.
+linter:
+  stage: test
+  image: gradle:jdk21-corretto
+  script:
+    - echo "linting..." && exit 1
+  failures: true
+
+# Depends on linter. When linter is optional (failures: true),
+# this job still runs even after linter fails.
+unittest:
+  stage: test
+  image: gradle:jdk21-corretto
+  needs: [linter]
+  script: 
+    - echo "testing..." && exit 0
+
+# This job has no dependency on linter, always runs in test stage.
+coverage:
+  stage: test
+  image: gradle:jdk21-corretto
+  script: 
+    - echo "coverage report..." && exit 0
+
+# Deploy stage only runs if test stage succeeds.
+package:
+  stage: deploy
+  image: gradle:jdk21-corretto
+  script: 
+    - echo "deploying..." && exit 0
