@@ -1,5 +1,5 @@
 pipeline:
-  name: allow-failure-demo
+  name: failure-true
   description: Demo pipeline to test failures field
 
 stages:
